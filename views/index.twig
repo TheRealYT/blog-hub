@@ -1,0 +1,11 @@
+{% extends "react.twig" %}
+
+{% block script %}
+    <script type="text/babel">
+        function Greetings() {
+            return (<h1>Hello react</h1>)
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<Greetings/>);
+    </script>
+{% endblock %}
