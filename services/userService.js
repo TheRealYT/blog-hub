@@ -3,7 +3,7 @@ const {filterService} = require("./filterService");
 
 class UserService {
     addUser(data) {
-        return new User(filterService.filter(data, ["username", "email"])).save()
+        return new User(filterService.filter(data, ["username", "email", "password"])).save()
     }
 }
 

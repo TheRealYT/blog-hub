@@ -1,0 +1,106 @@
+{% extends "react.twig" %}
+
+{% block script %}
+    <script type="text/babel">
+        const {useState} = React
+
+        function App() {
+            return (<MyForm/>)
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(
+            <React.StrictMode>
+                <App/>
+            </React.StrictMode>
+        );
+
+        function MyForm() {
+            const [username, setUsername] = useState('');
+            const [password, setPassword] = useState('');
+            const [email, setEmail] = useState('');
+            const [result, setResult] = useState(null);
+            const [error, setError] = useState(null);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+
+                try {
+                    const response = await fetch('/user/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({username, password, email}),
+                    });
+
+                    const {data, message, success} = await response.json();
+
+                    if (response.ok && success) {
+                        setResult(message);
+                        setError(null);
+                    } else {
+                        setResult(null);
+                        setError({...data.error, message});
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    setError('Something went wrong');
+                    setResult(null);
+                }
+            };
+
+            const formatError = (error, objKey) => {
+                if (error != null && typeof error == "object") {
+                    if (!objKey) objKey = "message"
+                    if (objKey && objKey in error) {
+                        return error[objKey]
+                    }
+                } else if (typeof error == "string") {
+                    return error
+                }
+
+                return ""
+            }
+
+            return (
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Username:
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            {formatError(error, "username")}
+                        </label>
+                        <br/>
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {formatError(error, "email")}
+                        </label>
+                        <br/>
+                        <label>
+                            Password:
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            {formatError(error, "password")}
+                        </label>
+                        <br/>
+                        <button type="submit">Submit</button>
+                    </form>
+                    {error && <p>{formatError(error)}</p>}
+                    {result && <p>{result}</p>}
+                </div>
+            );
+        }
+    </script>
+{% endblock %}

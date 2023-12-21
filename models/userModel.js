@@ -1,4 +1,5 @@
 const {Schema, model} = require("mongoose")
+const {passwordService} = require("../services/passwordService");
 
 const userSchema = new Schema(
     {
@@ -32,10 +33,28 @@ const userSchema = new Schema(
                     message: () => `Email already used`
                 }
             ]
+        },
+        password: {
+            type: String,
+            required: [true, "Password required"],
+            minLength: [8, 'Password too short'],
+            maxLength: [16, 'Password too long'],
+        },
+        photo: {
+            type: String,
+            default: "",
+            validate: {
+                validator: async photoUrl => photoUrl === "" || /^http(s)?:\/\/[\w-]+(\.[\w-]+)+/.test(photoUrl),
+                message: () => `Invalid url`
+            }
         }
     },
     {timestamps: true}
 )
+
+userSchema.post('validate', async user => {
+    user.password = await passwordService.hash(user.password)
+})
 
 const User = model('User', userSchema)
 

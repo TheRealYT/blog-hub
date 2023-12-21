@@ -34,7 +34,7 @@ app.use("/user", userController)
 
 // fallback
 app.use((req, res) => {
-    res.show("404 :( Not Found", 400);
+    res.show("404 :( Not Found", 404);
 })
 
 // http error handler
@@ -47,9 +47,16 @@ app.use((error, req, res, next) => {
 })
 
 // initial db connection
-dbService.connect().then(() => {
-    console.log("Database connected")
-}).catch(e => console.error(e))
+function loop() {
+    dbService.connect().then(() => {
+        console.log("Database connected")
+    }).catch(e => {
+        console.error(e.message)
+        setTimeout(loop, 5000)
+        console.log("Reconnecting in 5s")
+    })
+}
+loop()
 
 // start server
 const listener = app.listen(process.env.PORT, () => {
