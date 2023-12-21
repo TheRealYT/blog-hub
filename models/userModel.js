@@ -19,17 +19,18 @@ const userSchema = new Schema(
             type: String,
             required: [true, 'Email required'],
             unique: true,
-            validate: [{
+            validate: [
+                {
                     validator: email => /^[\w-.]{3,}@([\w-]+\.)+[\w-]{2,4}$/.test(email),
                     message: () => "Invalid email",
                 },
                 {
-                validator: async email => {
-                    const exists = await User.findOne({email}).exec()
-                    return exists === null
-                },
-                message: () => `Email already used`
-            }
+                    validator: async email => {
+                        const exists = await User.findOne({email}).exec()
+                        return exists === null
+                    },
+                    message: () => `Email already used`
+                }
             ]
         }
     },

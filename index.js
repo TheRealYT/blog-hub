@@ -8,6 +8,8 @@ const twig = require("twig")
 // controllers
 const indexController = require("./controllers/indexController")
 const userController = require("./controllers/userController")
+const responseController = require("./controllers/responseController")
+const {handleError} = require("./controllers/errorController");
 
 // services
 const {dbService} = require("./services/dbService");
@@ -26,18 +28,22 @@ app.use(express.json()) // json body parser
 app.use(express.urlencoded({extended: true})) // form parser
 
 // use controllers
+responseController(app)
 app.use("/", indexController)
 app.use("/user", userController)
 
 // fallback
 app.use((req, res) => {
-    res.status(404).send("404 :( Not Found");
+    res.show("404 :( Not Found", 400);
 })
 
+// http error handler
+app.use(handleError)
+
 // error handler
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
     console.error(error);
-    res.status(505).send("500 :( Internal Server Error");
+    res.show("500 :( Internal Server Error", 500);
 })
 
 // initial db connection

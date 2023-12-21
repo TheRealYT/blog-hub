@@ -19,5 +19,5 @@ const dbService = new DBService()
 
 module.exports = {
     dbService,
-    DBService
+    DBService,
 }

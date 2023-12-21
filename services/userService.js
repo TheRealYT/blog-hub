@@ -1,12 +1,9 @@
 const {User} = require("../models/userModel");
+const {filterService} = require("./filterService");
 
 class UserService {
-    validateUser(data) {
-        return new User(data).validateSync()
-    }
-
     addUser(data) {
-        return new User(data).save()
+        return new User(filterService.filter(data, ["username", "email"])).save()
     }
 }
 
@@ -14,5 +11,5 @@ const userService = new UserService()
 
 module.exports = {
     userService,
-    UserService
+    UserService,
 }

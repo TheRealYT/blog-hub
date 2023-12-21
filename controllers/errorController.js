@@ -1,8 +1,25 @@
-const { Router } = require('express');
-const router = Router();
+const {HTTPError, errorService} = require("../services/errorService");
 
-router.get("/", (req, res) => {
-    res.render('index', {title : "BlogHub - Post and explore blogs on diverse topics."});
-})
+function handleError(error, req, res, next)  {
+    if (error instanceof HTTPError) {
+        res.show({error: error.data}, error.statusCode)
+        return
+    }
+    next(error)
+}
 
-module.exports = router;
+function safeExecute(middleWare) {
+    return async (req, res, next) => {
+        try {
+            await middleWare(req, res, next)
+        } catch (e) {
+            if (e.name === "ValidationError") {
+                next(new HTTPError(400, errorService.getErrorMessages(e)))
+                return
+            }
+            next(e)
+        }
+    }
+}
+
+module.exports = {safeExecute, handleError};
