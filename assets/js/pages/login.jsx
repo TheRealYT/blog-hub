@@ -3,11 +3,7 @@ const {useState} = React
 function App() {
     return (
         <React.Fragment>
-            <div className="col text-white">
-                <h1>Solving problems for every</h1>
-            </div>
-
-            <div className="col-md-8 col-lg-6">
+            <div className="offset-md-2 offset-lg-3 col-md-8 col-lg-6">
                 <div className="card rounded border-0 shadow p-5 pb-3">
                     <div className="row">
                         <div className="col-sm">
@@ -23,7 +19,7 @@ function App() {
                         </div>
                     </div>
 
-                    <SignupForm/>
+                    <LoginForm/>
                 </div>
             </div>
         </React.Fragment>)

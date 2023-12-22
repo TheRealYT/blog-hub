@@ -6,10 +6,10 @@ const app = express()
 const twig = require("twig")
 
 // controllers
-const indexController = require("./controllers/indexController")
-const userController = require("./controllers/userController")
-const assetsController = require("./controllers/assetsController")
-const responseController = require("./controllers/responseController")
+const indexController = require("./controllers/indexRouter")
+const userController = require("./controllers/userRouter")
+const assetsController = require("./controllers/assetsRouter")
+const responseController = require("./controllers/responseApp")
 const {handleError} = require("./controllers/errorController");
 
 // services

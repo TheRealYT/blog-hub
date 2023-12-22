@@ -4,6 +4,9 @@ function handleError(error, req, res, next)  {
     if (error instanceof HTTPError) {
         res.show(error.message, error.statusCode, {error: error.data})
         return
+    } else if (error?.name === "TokenExpiredError") {
+        res.show("Session expired", 403, {})
+        return
     }
     next(error)
 }

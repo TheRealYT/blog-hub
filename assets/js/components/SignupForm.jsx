@@ -32,26 +32,12 @@ function SignupForm() {
                 setError({...data.error, message});
             }
         } catch (err) {
-            console.error('Error:', err);
             setError('Something went wrong');
             setResult(null);
         } finally {
             setLoading(false)
         }
     };
-
-    const formatError = (error, objKey = undefined, check = false) => {
-        if (error != null && typeof error == "object") {
-            if (!objKey) objKey = "message"
-            if (objKey && objKey in error) {
-                return check ? true : error[objKey]
-            }
-        } else if (typeof error == "string") {
-            return check ? true : error
-        }
-
-        return check ? false : ""
-    }
 
     return (<React.Fragment>
         <form onSubmit={handleSubmit} className="d-flex flex-column">
@@ -63,7 +49,7 @@ function SignupForm() {
                     value={username}
                     placeholder="Username"
                     onChange={(e) => setUsername(e.target.value)}
-                    // required
+                    required
                 />
                 <label htmlFor="inputUsername">Username</label>
                 {formatError(error, "username", true) && (
@@ -78,7 +64,7 @@ function SignupForm() {
                     value={email}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
-                    // required
+                    required
                 />
                 <label htmlFor="inputEmail">Email</label>
                 {formatError(error, "email", true) && (
@@ -93,7 +79,7 @@ function SignupForm() {
                     value={password}
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
-                    // required
+                    required
                 />
                 <label htmlFor="inputPassword">Password</label>
                 {formatError(error, "password", true) && (
@@ -103,7 +89,7 @@ function SignupForm() {
             <div className="d-flex flex-column justify-content-around">
                 <button className="btn btn-success p-2" type="submit" disabled={loading}>Sign up</button>
                 <span className="text-center mt-3 mb-2">Already have an account? <a className="text-brand"
-                                                                                    href="#">Login</a></span>
+                                                                                    href="/account/login">Login</a></span>
             </div>
         </form>
         {error && <span className="alert alert-danger">{formatError(error)}</span>}
