@@ -8,6 +8,7 @@ const twig = require("twig")
 // controllers
 const indexController = require("./controllers/indexController")
 const userController = require("./controllers/userController")
+const assetsController = require("./controllers/assetsController")
 const responseController = require("./controllers/responseController")
 const {handleError} = require("./controllers/errorController");
 
@@ -22,7 +23,8 @@ app.set("twig options", {
     strict_variables: false
 });
 
-app.use(express.static("public")) // expose public dir
+app.use(assetsController) // expose assets dir
+
 app.use(require("cookie-parser")())
 app.use(express.json()) // json body parser
 app.use(express.urlencoded({extended: true})) // form parser
@@ -30,7 +32,7 @@ app.use(express.urlencoded({extended: true})) // form parser
 // use controllers
 responseController(app)
 app.use("/", indexController)
-app.use("/user", userController)
+app.use(userController)
 
 // fallback
 app.use((req, res) => {
