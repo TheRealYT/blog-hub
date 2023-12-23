@@ -2,7 +2,7 @@ const {Router, response} = require('express');
 const {userService} = require("../services/userService");
 
 const {safeExecute} = require("../controllers/errorController")
-const {jwtService} = require("../services/jwtService");
+const {jwtService, JwtService} = require("../services/jwtService");
 
 const router = Router();
 
@@ -24,8 +24,11 @@ router.post("/account/login", safeExecute(async (req, res) => {
     const data = req.body
     const user = await userService.login(data)
     if (user) {
+        const token = await jwtService.sign({id: user._id});
+
+        res.cookie('token', token, { maxAge: JwtService.MAX_AGE, httpOnly: true });
         res.show("Login successful", 200, {
-            token: await jwtService.sign({id: user._id})
+            token
         })
         return
     }

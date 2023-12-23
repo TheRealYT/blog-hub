@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken")
 
 class JwtService {
+    static MAX_AGE = 60000 // 60 seconds
+
     sign(payload) {
         return new Promise((res, rej) => {
-            jwt.sign(payload, process.env.JWT_SECRET, {algorithm: 'HS256', expiresIn: "60s"}, (err, token) => {
+            jwt.sign(payload, process.env.JWT_SECRET, {algorithm: 'HS256', expiresIn: JwtService.MAX_AGE}, (err, token) => {
                 if (err) {
                     rej(err)
                 } else {
@@ -25,7 +27,7 @@ class JwtService {
         })
     }
 
-    extractToken(req) {
+    extractTokenAuth(req) {
         // Authorization: Bearer <token>
         const auth = req.header("Authorization")
         if (auth) {
@@ -35,6 +37,10 @@ class JwtService {
             }
         }
         return null
+    }
+
+    extractTokenCookie(req) {
+        return req.cookies?.token
     }
 }
 
