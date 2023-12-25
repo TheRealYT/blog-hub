@@ -44,7 +44,7 @@ const userSchema = new Schema(
             type: String,
             default: "",
             validate: {
-                validator: async photoUrl => photoUrl === "" || /^http(s)?:\/\/[\w-]+(\.[\w-]+)+/.test(photoUrl),
+                validator: photoUrl => photoUrl === "" || /^http(s)?:\/\/[\w-]+(\.[\w-]+)+/.test(photoUrl),
                 message: () => `Invalid url`
             }
         }

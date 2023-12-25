@@ -5,12 +5,16 @@ const express = require("express")
 const app = express()
 const twig = require("twig")
 
-// controllers
-const indexController = require("./controllers/indexRouter")
-const userController = require("./controllers/userRouter")
-const assetsController = require("./controllers/assetsRouter")
 const responseController = require("./controllers/responseApp")
+
+// controllers
 const {handleError} = require("./controllers/errorController");
+
+// routers
+const indexRouter = require("./controllers/indexRouter")
+const assetsRouter = require("./controllers/assetsRouter")
+const userRouter = require("./controllers/userRouter")
+const blogRouter = require("./controllers/blogRouter")
 
 // services
 const {dbService} = require("./services/dbService");
@@ -23,7 +27,7 @@ app.set("twig options", {
     strict_variables: false
 });
 
-app.use(assetsController) // expose assets dir
+app.use(assetsRouter) // expose assets dir
 
 app.use(require("cookie-parser")())
 app.use(express.json()) // json body parser
@@ -31,8 +35,9 @@ app.use(express.urlencoded({extended: true})) // form parser
 
 // use controllers
 responseController(app)
-app.use("/", indexController)
-app.use(userController)
+app.use("/", indexRouter)
+app.use(userRouter)
+app.use(blogRouter)
 
 // fallback
 app.use((req, res) => {

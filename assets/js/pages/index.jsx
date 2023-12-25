@@ -31,4 +31,4 @@ function App() {
         </React.Fragment>)
 }
 
-render(<App/>);
+render(App);

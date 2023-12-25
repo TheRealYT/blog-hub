@@ -7,29 +7,12 @@ function LoginForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            setLoading(true)
-            const response = await fetch('/account/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({usernameOrEmail: usernameMail, password}),
-            });
-
-            const {data, message, success} = await response.json();
-
-            if (response.ok && success) {
-                // TODO: redirect
-                setError(null);
-            } else {
-                setError({...data.error, message});
-            }
-        } catch (err) {
-            setError('Something went wrong');
-        } finally {
-            setLoading(false)
-        }
+        setLoading(true)
+        api('/account/login', {usernameOrEmail: usernameMail, password}).then(() => {
+            setError(null);
+        }).catch(({error, message}) => {
+            setError({error, message});
+        }).finally(() => setLoading(false))
     };
 
     return (<React.Fragment>
@@ -66,6 +49,6 @@ function LoginForm() {
                                                                                     href="/account/signup">Sign up</a></span>
             </div>
         </form>
-        {error && <span className="alert alert-danger">{formatError(error)}</span>}
+        {error && <span className="alert alert-danger">{error.message}</span>}
     </React.Fragment>);
 }

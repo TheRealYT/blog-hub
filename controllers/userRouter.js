@@ -3,11 +3,12 @@ const {userService} = require("../services/userService");
 
 const {safeExecute} = require("../controllers/errorController")
 const {jwtService, JwtService} = require("../services/jwtService");
+const {renderService} = require("../services/renderService");
 
 const router = Router();
 
-router.get("/account/signup", (req, res) => {
-    res.render("signup", {title: "BlogHub - Sign Up"});
+router.get("/account/signup", async (req, res) => {
+    res.render("signup", await renderService.add(req, {title: "BlogHub - Sign Up"}));
 })
 
 router.post("/account/signup", safeExecute(async (req, res) => {
@@ -16,8 +17,8 @@ router.post("/account/signup", safeExecute(async (req, res) => {
     res.show("Account created successfully!", 201)
 }))
 
-router.get("/account/login", (req, res) => {
-    res.render("login", {title: "BlogHub - Sign Up"});
+router.get("/account/login", async (req, res) => {
+    res.render("login", await renderService.add(req, {title: "BlogHub - Sign Up"}));
 })
 
 router.post("/account/login", safeExecute(async (req, res) => {
@@ -26,7 +27,7 @@ router.post("/account/login", safeExecute(async (req, res) => {
     if (user) {
         const token = await jwtService.sign({id: user._id});
 
-        res.cookie('token', token, { maxAge: JwtService.MAX_AGE, httpOnly: true });
+        res.cookie('token', token, {maxAge: JwtService.MAX_AGE, httpOnly: true});
         res.show("Login successful", 200, {
             token
         })

@@ -6,37 +6,21 @@ function SignupForm() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false)
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        try {
-            setLoading(true)
-            const response = await fetch('/account/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({username, password, email}),
-            });
+        setLoading(true)
+        api('/account/signup', {username, password, email}).then(({message}) => {
+            setUsername("")
+            setEmail("")
+            setPassword("")
 
-            const {data, message, success} = await response.json();
-
-            if (response.ok && success) {
-                setUsername("")
-                setEmail("")
-                setPassword("")
-                setResult(message);
-                setError(null);
-            } else {
-                setResult(null);
-                setError({...data.error, message});
-            }
-        } catch (err) {
-            setError('Something went wrong');
+            setResult(message);
+            setError(null);
+        }).catch(({error, message}) => {
+            setError({error, message});
             setResult(null);
-        } finally {
-            setLoading(false)
-        }
+        }).finally(() => setLoading(false))
     };
 
     return (<React.Fragment>
@@ -92,7 +76,7 @@ function SignupForm() {
                                                                                     href="/account/login">Login</a></span>
             </div>
         </form>
-        {error && <span className="alert alert-danger">{formatError(error)}</span>}
+        {error && <span className="alert alert-danger">{error.message}</span>}
         {result && <span className="alert alert-success">{result}</span>}
     </React.Fragment>);
 }

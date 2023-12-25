@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
 class JwtService {
-    static MAX_AGE = 60000 // 60 seconds
+    static MAX_AGE = 60 * 60 * 1000
 
     sign(payload) {
         return new Promise((res, rej) => {

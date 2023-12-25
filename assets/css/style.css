@@ -1,5 +1,9 @@
 :root {
-    --brand-bg: linear-gradient(45deg, #348F50, #56B4D3)
+    --brand-bg: linear-gradient(45deg, #348F50, #56B4D3);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background: var(--brand-bg)
 }
 
 .w-max {
@@ -16,4 +20,57 @@
 
 .text-brand {
     color: #348F50;
+}
+
+.border-brand {
+    border-top: 15px solid;
+    border-image: var(--brand-bg) 1;
+}
+
+.outline-0 {
+    outline: none;
+}
+
+.focus-outline-1:focus-within {
+    outline: 3px solid;
+}
+
+.ck-toolbar {
+    border-top-left-radius: var(--bs-border-radius) !important;
+    border-top-right-radius: var(--bs-border-radius) !important;
+}
+
+.ck-content {
+    border-color: var(--bs-secondary-border-subtle) !important;
+}
+
+.img-view {
+    background: var(--brand-bg);
+    min-height: 100px;
+}
+
+.img-box {
+    width: 16rem;
+    height: 8rem;
+    background: var(--brand-bg);
+    position: relative;
+    cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: 0.2s;
+    background-size: cover;
+}
+
+.img-box:hover {
+    opacity: 0.9;
+    box-shadow: var(--bs-box-shadow)!important;
+}
+
+.img-box:active {
+    box-shadow: 0 0 10px 6px inset #0000003d;
+}
+
+.tag {
+    max-height: 8rem;
+    overflow: auto;
 }
