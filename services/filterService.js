@@ -7,7 +7,7 @@ class FilterService {
     filter(data, allowedFields) {
         return Object.keys(data).reduce((acc, key) => {
             if (allowedFields.includes(key)) {
-                acc[key] = data[key] // TODO: sanitize for db query
+                acc[key] = data[key]
             }
             return acc
         }, {})

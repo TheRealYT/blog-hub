@@ -24,7 +24,7 @@
 </head>
 <body>
     {% include "nav.twig" %}
-    <main></main>
+    <main>{% block main %}{% endblock %}</main>
 
     <script src="https://unpkg.com/react@18.2.0/umd/react.development.js" crossorigin="anonymous"
             referrerpolicy="no-referrer"></script>

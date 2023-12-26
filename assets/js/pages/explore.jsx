@@ -13,26 +13,14 @@ function parseDom(tagName, innerHtml) {
 }
 
 function App() {
-    const [blogs, setBlogs] = useState(getData([]))
-
-    const handleDel = (blogId) => {
-        const del = confirm("Are you sure to delete the blog?")
-        if (del) {
-            api("/blog/del", {blogId}).then(() => {
-                setBlogs(blogs.filter(blog => blog.blogId !== blogId))
-            }).catch(({message}) => alert(message))
-        }
-    }
+    const [blogs] = useState(getData([]))
 
     return (<div className="border-brand py-5 px-2 px-md-5 px-lg-5">
         <div className="container row">
             {blogs.length === 0 &&
                 <React.Fragment>
                     <div className="alert alert-secondary" role="alert">
-                        You haven't posted any blog yet.
-                    </div>
-                    <div>
-                        <a className="text-brand d-" href="/blog/new">Create</a> your first blog.
+                        We are not able to find any blogs for now.
                     </div>
                 </React.Fragment>
             }
@@ -50,12 +38,7 @@ function App() {
                             <p className="card-text mb-1">{parseDom("div", blog.content).textContent.substring(0, 60)}...</p>
 
                             <div className="mb-2">{dateFormat(new Date(blog.updatedAt))}</div>
-                            <div className="d-flex gap-2">
-                                <button onClick={() => handleDel(blog.blogId)}
-                                        className="btn btn-outline-danger">Delete
-                                </button>
-                                <a href={blog.blogId} className="btn btn-success flex-grow-1">Edit</a>
-                            </div>
+                            <a href={"/blogs/" + blog.blogId} className="btn btn-success d-block">View</a>
                         </div>
                     </div>
                 </div>

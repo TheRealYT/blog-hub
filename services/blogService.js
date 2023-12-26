@@ -21,7 +21,19 @@ class BlogService {
     }
 
     findOne(userId, blogId) {
-        return Blog.find({userId, blogId}).select('-_id -userId -__v').exec();
+        return Blog.findOne({userId, blogId}).select('-_id -userId -__v').exec();
+    }
+
+    deleteOne(userId, blogId) {
+        return Blog.findOneAndDelete({userId, blogId}).exec()
+    }
+
+    findMany() {
+        return Blog.find().select('-_id -userId -__v').exec();
+    }
+
+    findOneBlogId(blogId) {
+        return Blog.findOne({blogId}).select('-_id -userId -__v').exec();
     }
 }
 

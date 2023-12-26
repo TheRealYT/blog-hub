@@ -1,0 +1,20 @@
+{% extends "react.twig" %}
+
+{% block main %}
+    <div class="border-brand py-5 px-2 px-md-5 px-lg-5">
+        <div class="container row">
+            <h2>{{ blog.title }}</h2>
+            <p>{{ dateFormat(blog.updatedAt) }}</p>
+            <hr>
+            <div>
+                {{ blog.content }}
+            </div>
+            <hr>
+            <div>
+                {% for tag in blog.tags %}
+                    <span class="badge bg-secondary ms-2">{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

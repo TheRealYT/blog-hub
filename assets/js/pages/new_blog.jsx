@@ -1,13 +1,21 @@
 const {useState, useEffect, useRef} = React
 
 function App() {
+    const data = getData({
+        blogId: null,
+        title: "",
+        content: null,
+        cover: "",
+        tags: [],
+    })
+
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [result, setResult] = useState(null)
-    const [url, setUrl] = useState("")
-    const [title, setTitle] = useState("");
-    const [tags, setTags] = useState([]);
-    const [blogId, setBlogId] = useState("");
+    const [url, setUrl] = useState(data.cover)
+    const [title, setTitle] = useState(data.title);
+    const [tags, setTags] = useState(data.tags);
+    const [blogId, setBlogId] = useState(data.blogId);
 
     const editorRef = useRef(null);
     const toolbarRef = useRef(null);
@@ -26,6 +34,9 @@ function App() {
                     const toolbarContainer = toolbarRef.current;
                     toolbarContainer.prepend(editor.ui.view.toolbar.element);
                     window.editor = editor;
+                    if (data.content != null) {
+                        editor.setData(data.content)
+                    }
                 })
                 .catch(() => loaded = false);
         loaded = true

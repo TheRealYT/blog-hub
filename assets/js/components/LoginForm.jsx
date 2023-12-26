@@ -9,6 +9,7 @@ function LoginForm() {
 
         setLoading(true)
         api('/account/login', {usernameOrEmail: usernameMail, password}).then(() => {
+            window.location.href = "/blog/my"
             setError(null);
         }).catch(({error, message}) => {
             setError({error, message});
@@ -23,11 +24,11 @@ function LoginForm() {
                     className="form-control"
                     type="text"
                     value={usernameMail}
-                    placeholder="Username"
+                    placeholder="Emaul / Username"
                     onChange={(e) => setUsernameMail(e.target.value)}
                     required
                 />
-                <label htmlFor="inputUsername">Username</label>
+                <label htmlFor="inputUsername">Email / Username</label>
             </div>
 
             <div className="form-floating mb-3">

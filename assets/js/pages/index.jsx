@@ -3,28 +3,13 @@ const {useState} = React
 function App() {
     return (
         <React.Fragment>
-            <div className="col text-white">
-                <h1>Solving problems for every</h1>
-            </div>
-
             <div className="col-md-8 col-lg-6">
-                <div className="card rounded border-0 shadow p-5 pb-3">
+                <div className="card rounded border-0 shadow p-5 bg-brand text-white">
                     <div className="row">
                         <div className="col-sm">
                             <h3 className="card-title">Join BlogHub</h3>
-                            <p className="card-text">Hundreds of companies using Space to build their
-                                business.</p>
+                            <p className="card-text">Free blogging platform for everyone.</p>
                         </div>
-                        <div className="col-sm-auto order-sm-2 mb-3 mb-sm-0">
-                            <img
-                                height="100"
-                                src="https://htmlstream.com/preview/space-v2.3.1/assets/svg/illustrations/oc-chatting.svg"
-                                alt="Image Description"/>
-                        </div>
-                    </div>
-
-                    <div>
-                        hello
                     </div>
                 </div>
             </div>

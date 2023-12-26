@@ -4,9 +4,7 @@ class DBService {
     connect() {
         return new Promise(async (res, rej) => {
             try {
-                await mongoose.connect(process.env.MONGODB_URI, {
-                    serverSelectionTimeoutMS: 3000 // TODO: remove me
-                })
+                await mongoose.connect(process.env.MONGODB_URI)
                 res()
             } catch (e) {
                 rej(e)

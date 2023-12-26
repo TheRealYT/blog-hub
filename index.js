@@ -20,12 +20,13 @@ const blogRouter = require("./controllers/blogRouter")
 const {dbService} = require("./services/dbService");
 
 // setup twig template
-twig.cache(false) // TODO: sync with app "view cache"
+twig.cache(process.env.NODE_ENV === "production")
 app.set('view engine', 'twig');
 app.set("twig options", {
     allowAsync: true, // allow asynchronous compiling
     strict_variables: false
 });
+app.set('trust proxy', 1)
 
 app.use(assetsRouter) // expose assets dir
 

@@ -1,4 +1,4 @@
-const {Router, response} = require('express');
+const {Router} = require('express');
 const {userService} = require("../services/userService");
 
 const {safeExecute} = require("../controllers/errorController")
@@ -18,7 +18,7 @@ router.post("/account/signup", safeExecute(async (req, res) => {
 }))
 
 router.get("/account/login", async (req, res) => {
-    res.render("login", await renderService.add(req, {title: "BlogHub - Sign Up"}));
+    res.render("login", await renderService.add(req, {title: "BlogHub - Login"}));
 })
 
 router.post("/account/login", safeExecute(async (req, res) => {
@@ -34,6 +34,11 @@ router.post("/account/login", safeExecute(async (req, res) => {
         return
     }
     res.show("Incorrect user name or password", 403)
+}))
+
+router.get("/account/logout", safeExecute(async (req, res) => {
+    res.clearCookie("token")
+    res.redirect("/account/login")
 }))
 
 module.exports = router;
